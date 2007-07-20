@@ -48,6 +48,12 @@ class Domain51_Template
     
     public function registerCallback($callback, $alias)
     {
+        if (!is_callable($callback)) {
+            throw new Domain51_Template_InvalidCallbackException(
+                '$callback not valid',
+                array('$callback' => $callback)
+            );
+        }
         $this->_callbacks[$alias] = $callback;
     }
     
@@ -63,3 +69,4 @@ class Domain51_Template
 
 class Domain51_Template_NonValidFileException extends PEAR_Exception { }
 class Domain51_Template_FileNotReadableException extends PEAR_Exception { }
+class Domain51_Template_InvalidCallbackException extends PEAR_Exception { }
