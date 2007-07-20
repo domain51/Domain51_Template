@@ -155,15 +155,19 @@ class Domain51_Template
      * Magic method to handle dispatching method calls to registered plug-ins
      *
      *
-     * @param string $method
+     * @param string $plugin_name
      *
      * @param array $arguments
      */
-    public function __call($method, $arguments)
+    public function __call($plugin_name, $arguments)
     {
+        if (!isset($this->_callbacks[$plugin_name])) {
+            throw new Domain51_Template_UnknownPluginException($plugin_name);
+        }
+        
         array_unshift($arguments, $this);
         return call_user_func_array(
-            $this->_callbacks[$method],
+            $this->_callbacks[$plugin_name],
             $arguments
         );
     }
