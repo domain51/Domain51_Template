@@ -67,9 +67,16 @@
             <version release="${version}" api="1.0" />
             <stability release="beta" api="beta" />
             
-            <changelog version="0.1" date="@@DATE@@">
-                This is the initial beta release of this package
+            <changelog version="0.1" date="2007-07-19">
+                This is the initial release of this package
             </changelog>
+            
+            <dependencies>
+                <package name="Domain51_Loader"
+                         channel="pear.domain51.com"
+                         type="required"
+                         minimum_version="0.1" />
+            </dependencies>
         </d51pearpkg2>
     </target>
     
