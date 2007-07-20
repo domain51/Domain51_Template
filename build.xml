@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Domain51_Template" basedir="." default="make">
+    <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2" />
+    
+    <property name="version" value="0.1" />
+    <property name="package_name" value="Domain51_Template" />
+    
+    <target name="clean">
+        <delete dir="./build/package" />
+        <delete dir="./build/export" />
+        <delete file="./${package_name}-${version}.tgz" />
+        
+        <mkdir dir="./build/package" />
+    </target>
+        
+    <target name="export" depends="clean">
+        <echo msg="Exporting SVN files" />
+        <exec command="svn export ./src ./build/export" />
+        
+        <copy todir="./build/package">
+            <filterchain>
+                <replacetokens begintoken="@@" endtoken="@@">
+                    <token key="VERSION" value="${version}" />
+                </replacetokens>
+            </filterchain>
+            <fileset dir="./build/export">
+                <include name="Domain51*/**" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="build" depends="export">
+        <d51pearpkg2 dir="./build/package" baseinstalldir="/">
+            <name>${package_name}</name>
+            <summary>Provides a simple, extensible text Template engine</summary>
+            <channel>pear.domain51.com</channel>
+            <description indentions_to_remove="16">
+                <!--        Don't exceed this width         -->
+                Domain51_Template provides a small, lightweight,
+                extensible templating engine.
+                
+                Values are assigned by assigning properties to
+                the template object, and retrieved within the
+                templates via the $this object.
+                
+                Domain51_Template implements a Value Object
+                pattern.  As such, once instantiated, the
+                template object represents on file in the file
+                system.  There is no limit on how the file is
+                named, or where it is placed.  The only
+                criteria is that it must be readable, and when
+                passed to is_file(), return true.
+                
+                Plug-ins can be any valid PHP callback,
+                allowing infinite flexibility in configuring
+                your template object.  Plugins, once
+                registered, are accessed via the $this object,
+                either using their method or function name if
+                no $alias was provided, or the using the name
+                provided as its $alias when registered.
+                <!--        Don't exceed this width         -->
+            </description>
+            
+            <lead user="tswicegood" name="Travis Swicegood" email="developer@domain51.com" />
+            <license>LGPL</license>
+            
+            <version release="${version}" api="1.0" />
+            <stability release="beta" api="beta" />
+            
+            <changelog version="0.1" date="@@DATE@@">
+                This is the initial beta release of this package
+            </changelog>
+        </d51pearpkg2>
+    </target>
+    
+    <target name="make" depends="build">
+        <echo msg="Creating PEAR archive file for ${package_name}" />
+        <mkdir dir="./build/package/${package_name}-${version}" />
+        <copy todir="./build/package/${package_name}-${version}">
+            <fileset dir="./build/package">
+                <include name="Domain51/**/**" />
+            </fileset>
+        </copy>
+        <delete dir="./build/package/Domain51" />
+        <tar compression="gzip" destfile="${package_name}-${version}.tgz" basedir="./build/package" />
+    </target>
+    
+    <target name="docs" depends="export">
+        <echo msg="Creating documentation" />
+        <phpdoc title="${package_name} Docs" 
+            destdir="./apidocs"
+            sourcecode="./build"
+            output="HTML:frames:DOM/earthli"
+        >
+            <fileset dir="./build/export">
+                <include name="**" />
+            </fileset>
+        </phpdoc>
+    </target>
+</project>
