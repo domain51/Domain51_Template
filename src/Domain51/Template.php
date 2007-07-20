@@ -63,18 +63,10 @@ class Domain51_Template
     public function __construct($file)
     {
         if (!is_file($file)) {
-            throw new Domain51_Template_NonValidFileException(
-                'non-valid $file parameter provided',
-                array(
-                    '$file' => $file,
-                )
-            );
+            throw new Domain51_Template_NonValidFileException($file);
         }
         if (!is_readable($file)) {
-            throw new Domain51_Template_FileNotReadableException(
-                'provided $file parameter not readable',
-                array('$file' => $file)
-            );
+            throw new Domain51_Template_FileNotReadableException($file);
         }
         
         $this->_file = $file;
@@ -138,10 +130,7 @@ class Domain51_Template
     public function registerCallback($callback, $alias = null)
     {
         if (!is_callable($callback)) {
-            throw new Domain51_Template_InvalidCallbackException(
-                '$callback not valid',
-                array('$callback' => $callback)
-            );
+            throw new Domain51_Template_InvalidCallbackException($callback);
         }
         
         if (is_null($alias)) {
