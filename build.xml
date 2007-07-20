@@ -2,7 +2,7 @@
 <project name="Domain51_Template" basedir="." default="make">
     <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2" />
     
-    <property name="version" value="0.1" />
+    <property name="version" value="0.1.1" />
     <property name="package_name" value="Domain51_Template" />
     
     <target name="clean">
@@ -66,6 +66,10 @@
             
             <version release="${version}" api="1.0" />
             <stability release="beta" api="beta" />
+            
+            <changelog version="0.1.1" date="2007-07-20">
+                Adds isset() support to objects
+            </changelog>
             
             <changelog version="0.1" date="2007-07-19">
                 This is the initial release of this package
