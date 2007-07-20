@@ -4,6 +4,7 @@ require_once 'PEAR/Exception.php';
 
 class Domain51_Template
 {
+    private $_callbacks = array();
     private $_data = array();
     private $_file = null;
     
@@ -43,6 +44,20 @@ class Domain51_Template
         include $this->_file;
         $buffer = ob_get_clean();
         return $buffer;
+    }
+    
+    public function registerCallback($callback, $alias)
+    {
+        $this->_callbacks[$alias] = $callback;
+    }
+    
+    public function __call($method, $arguments)
+    {
+        array_unshift($arguments, $this);
+        return call_user_func_array(
+            $this->_callbacks[$method],
+            $arguments
+        );
     }
 }
 
