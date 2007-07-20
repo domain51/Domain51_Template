@@ -101,6 +101,20 @@ class Domain51_Template
     
     
     /**
+     * Magic method to handle isset() calls made against assigned values
+     *
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return isset($this->_data[$key]);
+    }
+    
+    
+    /**
      * Magic method to handle converting this object to a string
      *
      *
