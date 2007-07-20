@@ -46,7 +46,7 @@ class Domain51_Template
         return $buffer;
     }
     
-    public function registerCallback($callback, $alias)
+    public function registerCallback($callback, $alias = null)
     {
         if (!is_callable($callback)) {
             throw new Domain51_Template_InvalidCallbackException(
@@ -54,6 +54,11 @@ class Domain51_Template
                 array('$callback' => $callback)
             );
         }
+        
+        if (is_null($alias)) {
+            $alias = is_string($callback) ? $callback : $callback[1];
+        }
+        
         $this->_callbacks[$alias] = $callback;
     }
     
