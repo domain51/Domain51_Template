@@ -1,6 +1,6 @@
 <?php
 
-require_once 'PEAR/Exception.php';
+require_once 'Domain51/Loader.php';
 
 class Domain51_Template
 {
@@ -71,7 +71,3 @@ class Domain51_Template
         );
     }
 }
-
-class Domain51_Template_NonValidFileException extends PEAR_Exception { }
-class Domain51_Template_FileNotReadableException extends PEAR_Exception { }
-class Domain51_Template_InvalidCallbackException extends PEAR_Exception { }
